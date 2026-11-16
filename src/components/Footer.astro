@@ -1,0 +1,42 @@
+---
+import Icon from "./Icon.astro";
+import FutureLink from "./FutureLink.astro";
+import AgeSegments from "./AgeSegments.astro";
+import { centers, email, socials, SOON, allAges } from "../data/site";
+const future = ["Блог", "Вакансії", "Співпраця", "Контакти", "Політика конфіденційності"];
+---
+<footer class="footer" data-rec="R-110">
+  <AgeSegments on={allAges} class="footer__strip" />
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <a class="footer__logo" href="#top"><img src="/logo.webp" width="98" height="96" alt="Brighter KIDS від Baby Club — на початок сторінки" loading="lazy" decoding="async" /></a>
+      <p>Мережа центрів розвитку дитини у Львові та Новояворівську.</p>
+    </div>
+    <div class="footer__col">
+      <h2 class="footer__title">Центри</h2>
+      <ul class="footer__list">
+        {centers.map((c) => (
+          <li><span class="footer__place">{c.city}, {c.address}</span><a class="footer__tel" href={`tel:${c.phone}`}>{c.phoneDisplay}</a></li>
+        ))}
+      </ul>
+    </div>
+    <div class="footer__col">
+      <h2 class="footer__title">Зв'язок</h2>
+      <a class="footer__mail" href={`mailto:${email}`}><Icon name="mail" size={20} />{email}</a>
+      <ul class="footer__social" data-rec="P-R05">
+        {socials.map((s) => (
+          <li><a href={s.href} target="_blank" rel="noopener"><Icon name={s.id} size={22} />{s.label}</a></li>
+        ))}
+      </ul>
+    </div>
+    <div class="footer__col">
+      <h2 class="footer__title">Сторінки</h2>
+      <ul class="footer__list footer__list--future">
+        {future.map((f) => <li><FutureLink note={SOON}>{f}</FutureLink></li>)}
+      </ul>
+    </div>
+  </div>
+  <div class="container footer__bottom">
+    <p>© Brighter KIDS від Baby Club</p>
+  </div>
+</footer>

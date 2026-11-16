@@ -1,0 +1,49 @@
+---
+// Sticky header: logo → #top, six anchors, primary action (R-112). Mobile: «Меню» full-screen panel with calls.
+import Icon from "./Icon.astro";
+import CallButton from "./CallButton.astro";
+import { centers } from "../data/site";
+const links = [
+  { href: "#age", label: "За віком" },
+  { href: "#programs", label: "Напрями" },
+  { href: "#mini-sadok", label: "Мінісадок" },
+  { href: "#english", label: "Англійська" },
+  { href: "#method", label: "Про нас" },
+  { href: "#centers", label: "Центри" },
+];
+---
+<header class="header" data-header data-rec="R-112">
+  <div class="container header__bar">
+    <a class="header__logo" href="#top">
+      <img src="/logo-96.webp" srcset="/logo-96.webp 1x, /logo.webp 2x" width="49" height="48" alt="Brighter KIDS від Baby Club — на початок сторінки" />
+    </a>
+    <nav class="header__nav" aria-label="Розділи сторінки">
+      <ul>
+        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </nav>
+    <a class="btn btn--primary btn--sm header__cta" href="#centers">Записатися на пробне</a>
+    <button class="header__menu-btn" type="button" aria-expanded="false" aria-controls="menu" data-menu-open>
+      <Icon name="menu" size={22} /><span>Меню</span>
+    </button>
+    <a class="header__menu-btn header__menu-btn--nojs" href="#menu"><Icon name="menu" size={22} /><span>Меню</span></a>
+  </div>
+  <div class="menu" id="menu" data-menu>
+    <div class="container menu__inner">
+      <div class="menu__top">
+        <span class="menu__title">Меню</span>
+        <button class="menu__close" type="button" data-menu-close><Icon name="close" size={22} /><span>Закрити</span></button>
+        <a class="menu__close menu__close--nojs" href="#top"><Icon name="close" size={22} /><span>Закрити</span></a>
+      </div>
+      <nav aria-label="Меню">
+        <ul class="menu__links">
+          {links.map((l) => <li><a href={l.href} data-menu-link>{l.label}</a></li>)}
+        </ul>
+      </nav>
+      <p class="menu__note">Перше заняття — безкоштовне. Подзвоніть у свій центр:</p>
+      <div class="menu__calls">
+        {centers.map((c) => <CallButton center={c} variant="outline" />)}
+      </div>
+    </div>
+  </div>
+</header>

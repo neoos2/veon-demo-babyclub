@@ -1,0 +1,12 @@
+---
+// Call button: district + phone number as text (readable for dialing from another phone), tel: link.
+import Icon from "./Icon.astro";
+import type { Center } from "../data/site";
+interface Props { center: Center; variant?: "primary" | "light" | "outline"; rec?: string; }
+const { center, variant = "primary", rec } = Astro.props;
+---
+<a class:list={["call", `call--${variant}`]} href={`tel:${center.phone}`} data-rec={rec}>
+  <span class="call__place"><span class="visually-hidden">Подзвонити в центр </span>{center.district}</span>
+  <span class="call__num">{center.phoneDisplay}</span>
+  <Icon name="phone" size={20} />
+</a>

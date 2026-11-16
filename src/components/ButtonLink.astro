@@ -1,0 +1,7 @@
+---
+// Primary action link (anchor to a section of this page).
+import Icon from "./Icon.astro";
+interface Props { href: string; variant?: "primary" | "light"; rec?: string; class?: string; }
+const { href, variant = "primary", rec, class: cls } = Astro.props;
+---
+<a class:list={["btn", `btn--${variant}`, cls]} href={href} data-rec={rec}><span><slot /></span><Icon name="arrow" size={20} /></a>

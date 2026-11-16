@@ -1,0 +1,86 @@
+/* Hallmark · shape: age-scale page (hero H1 + three calls + stepped photo → age switch → growth table → mini-sadok → English field → method → centers) · genre: playful · theme: custom · job: book · idea: "Дитина росте сходинка за сходинкою — як кольорові сегменти літер KiDS: кожен рік має свій колір і місце на ростомірі, і вся головна — шкала від 1 року, на якій батьки знаходять свою дитину і її центр." · vibe: "bright, honest, growing step by step"
+ * paper: #FFFFFF · accent: #99519F · display: Geologica · body: Onest · hero: H1 on 8 columns, panel of three equal call buttons on 4 columns, full-width real photo whose top edge is cut into seven age steps · nav: sticky white bar, logo, 6 anchors, primary «Записатися на пробне»; mobile «Меню» full-screen panel with calls · footer: light surface, 7-segment strip, three centers, e-mail, socials, future pages · imagery: client photos · signature: photo with a stepped top edge carrying the KiDS age segments, the same scale running through age switch, growth table and English
+ * surface: absolute · axes: white/Geologica/#99519F · posture: committed · contrast: pass · fold: pass · v2.0.0 */
+/* Hallmark · pre-emit critique: P4 H4 E4 S5 R4 V4 · weakest: E (motion kept to four effects from concept §8; nothing animates on scroll except the English scale) */
+/* Hallmark · waive 7b · --color-bg #FFFFFF, on-primary/on-deep #FFFFFF · concept §5 Look: pure white is the Brighter club banner seen on every 2025 photo, approved palette (veon-concept colors) */
+/* Hallmark · waive 39b · button.age-step 96 to 216px tall · the age buttons are the growth steps of the concept: each older age is a taller step of the same scale as the hero photo */
+/* Hallmark · waive 59 · 64px between #age and #programs · the age switch filters the growth table, so the table sits right under the switch as one tool (ux demo-home §10 p.3) */
+/* Hallmark · answered F19 · concept pairs Geologica 700/800 for headings and age numbers with Onest 400/600 for text; the weights are the approved type system */
+/* Hallmark · waive 23 · accent ~9% at 1280x800 · the purple is the three equal call buttons of the three centers plus the header action: calling a center is the one job of this page (concept §5, ux §1) */
+/* Hallmark · waive 44c · hero ends near 1075px at 1440x900 · H1 and the three calls sit above the fold; the stepped photo below is meant to show only its age steps on the first screen and invite the scroll */
+/* Hallmark · answered F7 · the age segments copy the rounded strokes of the KiDS letters in the logo (concept §5: segments fully rounded), they are the page's scale, not boxes */
+/* Hallmark · dismissed F4 · one filled primary (purple); the white button lives only on the plum English field and the menu button is an outline control */
+/* Hallmark · dismissed 28a · the footer logo is lazy because the LCP is the H1 text and the hero photo carries fetchpriority high */
+/* Client design tokens from design/concept.md (veon-concept: colors #99519F #72AD3C #4A1F52 #24182A #FFFFFF #F4F0F5; fonts Geologica, Onest). */
+:root {
+  /* colour roles (concept §8 «Дизайн-система») */
+  --color-bg: #FFFFFF;
+  --color-surface: #F4F0F5;
+  --color-text: #24182A;
+  --color-muted: #5F5367;
+  --color-primary: #99519F;
+  --color-primary-hover: #4A1F52;
+  --color-on-primary: #FFFFFF;
+  --color-deep: #4A1F52;
+  --color-on-deep: #FFFFFF;
+  --color-on-deep-muted: #E9DDEC;
+  --color-accent-fill: #72AD3C;
+  --color-on-accent: #24182A;
+  --color-accent-text: #3B6A16;
+  --color-border: #DCD3DF;
+  --color-accent: #99519F; /* focus ring on light (base name) */
+  --color-focus-dark: #FFFFFF;
+
+  /* age segments: KiDS letters of logo.webp */
+  --age-1: #E52421;
+  --age-2: #EC6608;
+  --age-3: #F5A800;
+  --age-4: #72AD3C;
+  --age-5: #2A85C8;
+  --age-6: #E5005A;
+  --age-7: #99519F;
+
+  /* type */
+  --font-display: "Geologica", system-ui, sans-serif;
+  --font-body: "Onest", system-ui, sans-serif;
+  --fs-h1: clamp(2.25rem, 1.2rem + 4.2vw, 4.625rem);
+  --fs-h2: clamp(2rem, 1.4rem + 2.2vw, 2.75rem);
+  --fs-h3: 1.5rem;
+  --fs-lead: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);
+  --fs-body: 1.0625rem;
+  --fs-small: 0.875rem;
+  --fs-age: clamp(1.25rem, 0.9rem + 1.4vw, 2rem);
+  --fs-year: clamp(5rem, 2rem + 12vw, 10rem);
+
+  /* rhythm 8 */
+  --s1: 0.5rem;
+  --s2: 1rem;
+  --s3: 1.5rem;
+  --s4: 2rem;
+  --s5: 3rem;
+  --s6: 4.5rem;
+  --s7: 7rem;
+  --section-y: clamp(4.5rem, 3rem + 5vw, 7rem);
+
+  /* layout */
+  --space: clamp(1.25rem, 0.5rem + 2.4vw, 3rem); /* page gutter 20 / 32 / 48 */
+  --container: 1320px;
+  --gap: 1.5rem;
+  --header-h: 72px;
+
+  /* shape */
+  --radius: 10px;
+  --radius-pill: 999px;
+  --seg-h: 8px;
+  --line: 1px;
+
+  /* motion */
+  --ease-out: cubic-bezier(.2, .7, .2, 1);
+  --dur: 600ms;
+  --dur-fast: 180ms;
+  --dur-filter: 250ms;
+}
+
+@media (max-width: 767px) {
+  :root { --header-h: 60px; }
+}

@@ -1,0 +1,13 @@
+---
+// The KiDS age scale: seven rounded segments, lit for confirmed ages; a quiet thin line when the age is not confirmed.
+import { ages, type AgeId } from "../data/site";
+interface Props { on?: readonly AgeId[]; class?: string; }
+const { on, class: cls } = Astro.props;
+const open = !on;
+---
+{open ? <span class:list={["segs", "segs--open", cls]} aria-hidden="true" /> :
+<span class:list={["segs", cls]} aria-hidden="true">
+  {ages.map((a, i) => (
+    <span class:list={["seg", { "is-on": on?.includes(a.id) }]} style={`--c: var(--age-${i + 1})`} />
+  ))}
+</span>}

@@ -1,0 +1,277 @@
+---
+// Homepage DEMO — Brighter KIDS від Baby Club. Design: design/concept.md; flows: ux/demo-home.md; facts: veon/client.json.
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import Section from "../components/Section.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import CallButton from "../components/CallButton.astro";
+import ButtonLink from "../components/ButtonLink.astro";
+import FutureLink from "../components/FutureLink.astro";
+import AgeSegments from "../components/AgeSegments.astro";
+import Icon from "../components/Icon.astro";
+import { ages, centers, email, socials, programGroups, mapHref, SOON } from "../data/site";
+import heroPhoto from "../assets/photos/hero-sensory.jpg";
+import heightChart from "../assets/photos/height-chart.jpg";
+import sadokPhoto from "../assets/photos/minisadok-drawing.jpg";
+import englishPhoto from "../assets/photos/english-cards.jpg";
+import teensPhoto from "../assets/photos/english-teens.jpg";
+import methodPhoto from "../assets/photos/method-banner.jpg";
+
+const title = "Brighter KIDS — центри розвитку дитини у Львові";
+const description =
+  "Заняття від 1 року, мінісадок, підготовка до школи, англійська Brighter English. Три центри: Чорновола, Стрийська, Новояворівськ. Перше заняття безкоштовне.";
+
+const englishGroups = [
+  { label: "3–6", c: 3 },
+  { label: "6–12", c: 5 },
+  { label: "12+", c: 6 },
+  { label: "дорослі", c: 7 },
+];
+
+const approaches = [
+  { name: "Heartfulness" },
+  { name: "Brighter Minds", text: "програма когнітивного розвитку" },
+  { name: "Сенсорна інтеграція" },
+  { name: "Множинний інтелект" },
+];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "#org",
+      name: "Brighter KIDS від Baby Club",
+      email,
+      foundingDate: "2009",
+      sameAs: socials.map((s) => s.href),
+    },
+    ...centers.map((c) => ({
+      "@type": "ChildCare",
+      name: `Brighter KIDS від Baby Club — ${c.district}`,
+      parentOrganization: { "@id": "#org" },
+      telephone: c.phone,
+      address: {
+        "@type": "PostalAddress",
+        addressCountry: "UA",
+        addressLocality: c.postal.locality,
+        streetAddress: c.postal.street,
+      },
+      openingHours: c.openingHours,
+    })),
+  ],
+};
+---
+<Base lang="uk" title={title} description={description} bodyRec="S-R006,S-R018,P-R03">
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </Fragment>
+  <Header slot="header" />
+
+  <Section id="top" class="hero" rec="R-101,R-111,S-R001,S-R004">
+    <div class="container hero__grid">
+      <div class="hero__text">
+        <h1 class="hero__title" data-rec="R-101,P-R06,S-R001,G-R001,M-R005">Brighter KIDS — центри розвитку дитини від <span class="nowrap">1 року</span> <span class="nowrap">у Львові</span> та Новояворівську</h1>
+      </div>
+      <div class="hero__calls" data-rec="R-102">
+        <p class="hero__lead">Розвивальні заняття, мінісадок, підготовка до школи й англійська Brighter English. <strong class="badge">Перше заняття — безкоштовне</strong></p>
+        <div class="hero__call-list">
+          {centers.map((c) => <CallButton center={c} />)}
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="stairs" data-stairs>
+        <ol class="stairs__steps" aria-label="Оберіть вік дитини">
+          {ages.map((a, i) => (
+            <li class="stairs__step" style={`--i: ${i}`}>
+              <a class="stair" href="#age" data-age-pick={a.id} style={`--c: var(--age-${i + 1})`}>
+                <span class="stair__num">{a.label}<span class="visually-hidden"> — {a.long}, напрями для цього віку</span></span>
+                <span class="stair__seg" aria-hidden="true" />
+              </a>
+            </li>
+          ))}
+        </ol>
+        <div class="stairs__photo" data-rec="P-R02,P-R04,S-R007">
+          <Image
+            src={heroPhoto}
+            alt="Педагогиня і діти граються із сенсорними м'ячиками на заняття в центрі Brighter KIDS"
+            widths={[480, 960, 1280]}
+            sizes="(min-width: 1368px) 1320px, calc(100vw - 2.5rem)"
+            format="webp"
+            quality={78}
+            loading="eager"
+            fetchpriority="high"
+          />
+          <span class="stairs__mask" aria-hidden="true">
+            {ages.map((_, i) => <span style={`--i: ${i}`} />)}
+          </span>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section id="age" class="age" rec="R-103">
+    <div class="container scale-grid">
+      <div class="scale-grid__info">
+        <figure class="age__photo">
+          <Image src={heightChart} alt="Ростомір-дерево на стіні ігрової кімнати, поруч діти" widths={[480, 800]} sizes="(min-width: 1368px) 536px, 40vw" format="webp" quality={78} loading="lazy" />
+          <figcaption>Ростомір у нашому центрі</figcaption>
+        </figure>
+      </div>
+      <div class="scale-grid__scale">
+        <h2>Скільки років дитині?</h2>
+        <p class="age__hint">Оберіть вік — нижче залишаться напрями для нього.</p>
+        <div class="age-switch" role="group" aria-label="Вік дитини" data-age-switch>
+          {ages.map((a, i) => (
+            <button class="age-step" type="button" aria-pressed="false" data-age={a.id} style={`--i: ${i}; --c: var(--age-${i + 1})`}>
+              <span class="age-step__seg" aria-hidden="true" />
+              <span class="age-step__num">{a.label}</span>
+              <span class="visually-hidden">{a.long}</span>
+            </button>
+          ))}
+        </div>
+        <div class="age-switch__foot">
+          <button class="age-all" type="button" aria-pressed="true" data-age="all">Усі напрями</button>
+          <p class="age-status" aria-live="polite" data-age-status>Показано всі напрями.</p>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section id="programs" class="programs" rec="R-103">
+    <div class="container">
+      <h2 class="programs__title">Напрями</h2>
+      {programGroups.map((g) => (
+        <div class="pgroup" data-pgroup>
+          <h3 class="pgroup__title">{g.title}</h3>
+          <ul class="prows">
+            {g.items.map((p) => (
+              <li class="prow scale-grid" data-ages={p.ages ? p.ages.join(" ") : "any"}>
+                <div class="scale-grid__info prow__info">
+                  <h4 class="prow__title">{p.title}</h4>
+                  {p.text && <p class="prow__text">{p.text}</p>}
+                  {p.anchor && <a class="prow__more" href={p.anchor}>Детальніше</a>}
+                </div>
+                <div class="scale-grid__scale prow__scale">
+                  <AgeSegments on={p.ages} />
+                  <span class:list={["prow__age", { "prow__age--open": !p.ages }]}>{p.ageText}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+      <div class="programs__cta">
+        <ButtonLink href="#centers">Записатися на пробне</ButtonLink>
+        <p>Вартість і розклад підкаже адміністратор центру.</p>
+        <FutureLink note={SOON} class="programs__more">Сторінки напрямів</FutureLink>
+      </div>
+    </div>
+  </Section>
+
+  <Section id="mini-sadok" class="sadok">
+    <div class="container sadok__grid">
+      <figure class="sadok__photo">
+        <Image src={sadokPhoto} alt="Дівчинка у фартусі малює олівцем на мольберті" widths={[480, 960, 1280]} sizes="(min-width: 1024px) 58vw, calc(100vw - 2.5rem)" format="webp" quality={78} loading="lazy" data-rec="P-R04" />
+      </figure>
+      <div class="sadok__text">
+        <h2>Мінісадок</h2>
+        <p class="sadok__day">Режим дня, заняття, прогулянки, екскурсії, ланч.</p>
+        <p>Основи поведінки, розвиток сенсорики, почуттів, уяви.</p>
+        <p class="sadok__methods">У програмі — методики Монтессорі, Зайцева, Домана, Федієнка, Нікітіних.</p>
+        <div class="sadok__age">
+          <AgeSegments on={["1-2", "2-3", "3-4", "4-5", "5-6"]} />
+          <span>1–6 років</span>
+        </div>
+        <ButtonLink href="#centers">Записатися на пробне</ButtonLink>
+      </div>
+    </div>
+  </Section>
+
+  <Section id="english" class="english">
+    <div class="container english__grid">
+      <div class="english__head">
+        <h2>Brighter English</h2>
+        <p class="english__lead">Brighter English — програма мережі Brighter KIDS. Англійська для дітей, підлітків і дорослих.</p>
+      </div>
+      <div class="english__scale" data-en-scale>
+        <p class="english__scale-title">Групи за віком</p>
+        <ol class="en-groups">
+          {englishGroups.map((g, i) => (
+            <li style={`--i: ${i}; --c: var(--age-${g.c})`}><span class="en-groups__seg" aria-hidden="true" /><span class="en-groups__label">{g.label}</span></li>
+          ))}
+        </ol>
+      </div>
+      <figure class="english__photo">
+        <Image src={englishPhoto} alt="Викладачка показує картку дітям на занятті англійської Brighter English" widths={[480, 960, 1280]} sizes="(min-width: 1024px) 50vw, calc(100vw - 2.5rem)" format="webp" quality={78} loading="lazy" />
+      </figure>
+      <figure class="english__photo english__photo--small">
+        <Image src={teensPhoto} alt="Підлітки з викладачкою на занятті англійської" widths={[480, 800]} sizes="(min-width: 1024px) 26vw, 50vw" format="webp" quality={78} loading="lazy" />
+      </figure>
+      <div class="english__facts">
+        <ul class="facts">
+          <li><strong>Мінігрупи до 6 осіб</strong></li>
+          <li><strong>Матеріали</strong> National Geographic Learning, TED, Cambridge</li>
+          <li><strong>Платформа Spark</strong></li>
+          <li><strong>Формат</strong> офлайн, онлайн і гібридно</li>
+          <li><strong>Перше заняття безкоштовне</strong></li>
+        </ul>
+        <div class="english__actions">
+          <ButtonLink href="#centers" variant="light">Записатися на пробне</ButtonLink>
+          <FutureLink note={SOON} class="english__more">Про курс</FutureLink>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section id="method" class="method">
+    <div class="container method__grid">
+      <p class="method__year" aria-hidden="true">2009</p>
+      <div class="method__text">
+        <h2>Як ми працюємо</h2>
+        <p class="method__lead">Працюємо з 2009 року. Baby Club перетворився на Brighter KIDS, а до спільноти Brighter Club входять також Brighter English, Brighter ART і Brighter Camp.</p>
+        <ol class="approaches">
+          {approaches.map((a) => (
+            <li><span class="approaches__name">{a.name}</span>{a.text && <span class="approaches__text">{a.text}</span>}</li>
+          ))}
+        </ol>
+        <FutureLink note={SOON} class="method__more">Про нас</FutureLink>
+      </div>
+      <figure class="method__photo">
+        <Image src={methodPhoto} alt="Педагогиня з малюком на руках на тлі банера «Задля кращого майбутнього»" widths={[480, 960]} sizes="(min-width: 1024px) 33vw, calc(100vw - 2.5rem)" format="webp" quality={78} loading="lazy" />
+      </figure>
+    </div>
+  </Section>
+
+  <Section id="centers" class="centers" rec="R-110">
+    <div class="container">
+      <h2 class="centers__title">Запишіться на безкоштовне пробне заняття</h2>
+      <ul class="centers__list">
+        {centers.map((c) => (
+          <li class="center">
+            <h3 class="center__name">{c.district}</h3>
+            <p class="center__addr">{c.city}, {c.address}</p>
+            <ul class="center__hours">
+              {c.hours.map((h) => <li><span>{h.days}</span> {h.time}</li>)}
+            </ul>
+            <CallButton center={c} variant="light" />
+            <a class="center__map" href={mapHref(c.mapQuery)} target="_blank" rel="noopener"><Icon name="map" size={20} />Як дістатися<span class="visually-hidden"> до центру {c.district} (карта, нова вкладка)</span></a>
+          </li>
+        ))}
+      </ul>
+      <div class="centers__foot">
+        <p>Вартість і розклад підкаже адміністратор центру.</p>
+        <a class="centers__mail" href={`mailto:${email}`}><Icon name="mail" size={20} />{email}</a>
+      </div>
+    </div>
+  </Section>
+
+  <Footer slot="footer" />
+
+  <a class="sticky-cta" href="#centers" data-sticky-cta data-rec="R-102,R-105">Записатися на пробне</a>
+</Base>
+
+<script src="../scripts/page.ts"></script>
